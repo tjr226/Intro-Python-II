@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -21,7 +22,6 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
-
 # Link rooms together
 
 room['outside'].n_to = room['foyer']
@@ -33,11 +33,71 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-#
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
+
+def wrongDir():
+    print("\nYou can't go that way, please pick another direction.\n")
+
+def showRoom():
+    print(newPlayer.room)
+
+def quitGame():
+    print("You have quit the game.")
+
+def getMovement():
+    return input("What direction will you move in next?")
+    
+newPlayer = Player(room['outside'])
+
+# print room at start, then print again whenever you get to a new room
+showRoom()
+
+while True:
+
+    playerMovement = getMovement()
+
+    if playerMovement == "q":
+        quitGame()
+        break
+    # north
+    elif playerMovement == "n":
+        if newPlayer.room.n_to == None:
+            wrongDir()
+        else:
+            newPlayer.room = newPlayer.room.n_to
+            showRoom()
+    # south
+    elif playerMovement == "s":
+        if newPlayer.room.s_to == None:
+            wrongDir()
+        else:
+            newPlayer.room = newPlayer.room.s_to
+            showRoom()
+    # east
+    elif playerMovement == "e":
+        if newPlayer.room.e_to == None:
+            wrongDir()
+        else:
+            newPlayer.room = newPlayer.room.e_to
+            showRoom()
+    # west
+    elif playerMovement == "w":
+        if newPlayer.room.w_to == None:
+            wrongDir()
+        else:
+            newPlayer.room = newPlayer.room.w_to
+            showRoom()
+    # catching incorrect inputs
+    else:
+        print("\nNot a valid input. Please input n, s, e, w, or q.\n")
+        
+
+
+
+
 
 # Write a loop that:
 #
