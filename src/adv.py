@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from adventure_funcs import *
 
 # Declare all the rooms
 
@@ -9,7 +10,7 @@ room = {
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east.""",
-                    ["Chair", "Table", "Brazier"]),
+                    ["Sword", "Bow"]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
@@ -38,26 +39,14 @@ room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 # Main
-#
 
 # Make a new player object that is currently in the 'outside' room.
-
-def wrongDir():
-    print("\nYou can't go that way, please pick another direction.\n")
-
-def showRoom():
-    print(newPlayer.room)
-
-def quitGame():
-    print("You have quit the game.")
-
-def getMovement():
-    return input("What direction will you move in next?")
     
 newPlayer = Player(room['outside'])
 
 # print room at start, then print again whenever you get to a new room
-showRoom()
+
+showRoom(newPlayer.room)
 
 while True:
 
@@ -66,50 +55,51 @@ while True:
     if playerMovement == "q":
         quitGame()
         break
+    elif len(playerMovement) > 1:
+        input_list = playerMovement.split(" ", 1)
+        item_action = input_list[0]
+        item_name = input_list[1]
+        # Success messages in the next if/elif block
+        # Failure messages in the Room and Player classes
+        if item_action == "Get":
+            if newPlayer.room.item_get(item_name) is True:
+                newPlayer.inventory.append(item_name)
+                print(f"{item_name} was added to your inventory.")
+        elif item_action == "Drop":
+            if newPlayer.drop_item(item_name) is True:
+                newPlayer.room.room_items.append(item_name)
+                print(f"{item_name} was dropped.")
+    # check items
+    elif playerMovement == "c":
+        showInventory(newPlayer.inventory)
     # north
     elif playerMovement == "n":
         if newPlayer.room.n_to == None:
             wrongDir()
         else:
             newPlayer.room = newPlayer.room.n_to
-            showRoom()
+            showRoom(newPlayer.room)
     # south
     elif playerMovement == "s":
         if newPlayer.room.s_to == None:
             wrongDir()
         else:
             newPlayer.room = newPlayer.room.s_to
-            showRoom()
+            showRoom(newPlayer.room)
     # east
     elif playerMovement == "e":
         if newPlayer.room.e_to == None:
             wrongDir()
         else:
             newPlayer.room = newPlayer.room.e_to
-            showRoom()
+            showRoom(newPlayer.room)
     # west
     elif playerMovement == "w":
         if newPlayer.room.w_to == None:
             wrongDir()
         else:
             newPlayer.room = newPlayer.room.w_to
-            showRoom()
+            showRoom(newPlayer.room)
     # catching incorrect inputs
     else:
         print("\nNot a valid input. Please input n, s, e, w, or q.\n")
-        
-
-
-
-
-
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
