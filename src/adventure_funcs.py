@@ -5,6 +5,10 @@ def showRoom(player_room):
     print(player_room)
 
 def showInventory(inventory):
+    # printing items has same code structure in room.py and adventure_funcs.py
+    item_list = []
+    for item in inventory:
+        item_list.append(item.name)
     print(f"Your items: {inventory}")
 
 def quitGame():

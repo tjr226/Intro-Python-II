@@ -3,7 +3,7 @@
 
 class Player:
     def __init__(self, room=None, inventory=[]):
-        self.room = room
+        self.current_room = room
         self.inventory = inventory
 
     def drop_item(self, item):

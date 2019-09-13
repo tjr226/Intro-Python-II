@@ -28,9 +28,13 @@ class Room:
         s = "*****\n\n"
         s += f"Current room: {self.room_name}\n\n{self.room_description}\n\n"
         
-        s += f"Action options: (C)heck inventory, (Get ITEM), (Drop ITEM)\n\n"
-        s += f"Room items: {self.room_items}\n\n"
-
+        s += f"Action options: (i)nventory, (get ITEM), (drop ITEM)\n\n"
+        s += f"Room items: "
+        # printing items has same code structure in room.py and adventure_funcs.py
+        room_items = []
+        for item in self.room_items:
+            room_items.append(item.name)
+        s += f"{room_items} \n\n"
         s += f"Movement options: \n\n"
         if self.n_to:
             s += f"(N)orth: {self.n_to.room_name}\n"
