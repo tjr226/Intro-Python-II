@@ -4,11 +4,10 @@
 import textwrap
 
 class Room:
-    def __init__(self, room_name, room_description, n_to=None, s_to=None, e_to=None, w_to=None):
+    def __init__(self, room_name, room_description, room_items=[], n_to=None, s_to=None, e_to=None, w_to=None):
         self.room_name = room_name
-        # print(self.room_name)
         self.room_description = textwrap.fill(room_description, 200)
-        # print(self.room_description)
+        self.room_items = room_items
         self.n_to = n_to
         self.s_to = s_to
         self.e_to = e_to
@@ -17,6 +16,7 @@ class Room:
     def __str__(self):
         s = "*****\n\n"
         s += f"Current room: {self.room_name}\n\n{self.room_description}\n\n"
+        s += f"Room items: {self.room_items}\n\n"
         s += f"Movement options: \n\n"
         if self.n_to:
             s += f"North: {self.n_to.room_name}\n"
